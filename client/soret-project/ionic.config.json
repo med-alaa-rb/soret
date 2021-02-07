@@ -1,0 +1,7 @@
+{
+  "name": "soret-project",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

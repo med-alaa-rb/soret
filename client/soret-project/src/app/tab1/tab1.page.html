@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title style="font-size: 28px"> search your destination </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar
+    showCancelButton
+    animated
+    cancel-button-icon
+    (ionChange)="searchStops($event.target.value)"
+    placeholder="Search Some Values"
+  ></ion-searchbar>
+  <div>
+    <ion-list>
+      <ion-item *ngFor="let element of searchList">
+        <label>{{element.stop_name}}</label>
+        <ion-button (click)="getCoords(element)">info</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
