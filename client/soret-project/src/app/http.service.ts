@@ -8,6 +8,7 @@ export class HttpService {
   userLocation: any = {};
   modalData: any;
   userChecked: boolean = false;
+  popoverData: any;
 
   constructor(private http: HttpClient) {}
   ROOT_URL = 'http://localhost:3000';
@@ -19,5 +20,8 @@ export class HttpService {
 
   postDesId(obj) {
     return this.http.post(this.ROOT_URL + `/data/api/sendUserDestination`, obj);
+  }
+  getStopTimes(id) {
+    return this.http.get(this.ROOT_URL + `/data/api/2020/stopsTimes/${id}`);
   }
 }

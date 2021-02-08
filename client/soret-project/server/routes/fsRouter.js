@@ -3,9 +3,11 @@ const fs = require("fs");
 const date = require("date-and-time");
 let stopPath = require("./2020/paths").stopPaths;
 let stopTimes = require("./2020/paths").stopTimes;
+let detailTrip = require("./2020/paths").detailTrip;
 let stops_time = [];
 let stops = [];
 let searchStops = [];
+let trips = [];
 
 // function to calculate distance between coords found in stack overflow
 
@@ -151,53 +153,98 @@ fsRouter.post("/data/api/sendUserDestination", (req, res) => {
       var sortedStops = sortStopsArr(possibleStops);
       var lastRes = (arr) => {
         for (var i = 0; i < arr.length; i++) {
+          arr[i].id = i;
           arr[i].diff = readDistance(arr[i].diff);
         }
         return arr;
       };
-      var arr = lastRes(sortedStops);
+      var arr = lastRes(sortedStops).filter((el) => el.id % 2 === 0);
+      res.send(arr);
     });
   });
 });
 
+fsRouter.get("/data/api/2020/stopsTimes/:id", async (req, res) => {
+  trips = [];
+  var info = req.params.id;
+  fs.readFile(stopTimes, (error, data) => {
+    if (error) {
+      throw error;
+    }
+    let myData = data
+      .toString()
+      .split("\n")
+      .map((el) => [el][0].split(","));
+    for (var i = 1; i < myData.length; i++) {
+      var obj = {};
+      for (var j = 0; j < myData[i].length; j++) {
+        obj[myData[0][j]] =
+          myData[i][j].match(/^[0-9,.,\b.] +$/) != null
+            ? JSON.parse(myData[i][j])
+            : myData[i][j];
+      }
+      stops_time.push(obj);
+    }
+    var filtred = stops_time.filter((el) => el.stop_id == info);
+    let getNextTimeFromArr = (str) =>
+      typeof str == "string"
+        ? parseFloat(str.slice(0, 5).replace(":", ""))
+        : str;
+    const now = () => {
+      var x = new Date().toLocaleTimeString();
+      var res = null;
+      x.search("pm") == -1
+        ? (res = getNextTimeFromArr(x) + 1200)
+        : (res = getNextTimeFromArr(x));
+      return res;
+    };
+
+    let newFiltred = filtred.filter(
+      (el) => 1300 < getNextTimeFromArr(el.arrival_time)
+    );
+    var trip = [];
+    newFiltred.map((el) => trip.push(parseFloat(el.trip_id)));
+    fs.readFile(detailTrip, (error, data) => {
+      if (error) {
+        throw error;
+      }
+      let myData = data
+        .toString()
+        .split("\n")
+        .map((el) => [el][0].split(","));
+      for (var i = 1; i < myData.length; i++) {
+        var obj = {};
+        for (var j = 0; j < myData[i].length; j++) {
+          obj[myData[0][j]] =
+            myData[i][j].match(/^[0-9, .]+$/) != null
+              ? JSON.parse(myData[i][j])
+              : myData[i][j];
+        }
+        trips.push(obj);
+      }
+      var tripRes = [];
+      trips.map((el) => (trip.includes(el.trip_id) ? tripRes.push(el) : el));
+      combinateObj(newFiltred, tripRes);
+      res.send(newFiltred);
+    });
+  });
+});
+
+var combinateObj = (arr1, arr2) => {
+  for (var i = 0; i < arr1.length; i++) {
+    for (var j = 0; j < arr2.length; j++) {
+      if (arr1[i].trip_id == arr2[j].trip_id) {
+        arr1[i]["trip_headsign"] = arr2[j]["trip_headsign"];
+        arr1[i]["direction_id"] = arr2[j]["direction_id"];
+        arr1[i]["shape_id"] = arr2[j]["shape_id"];
+      }
+    }
+  }
+  return arr1;
+};
+
 module.exports = { fsRouter };
 
 // using this function with search from marker
-// fs.readFile(stopTimes, (error, data) => {
-//   if (error) {
-//     throw error;
-//   }
-//   let myData = data
-//     .toString()
-//     .split("\n")
-//     .map((el) => [el][0].split(","));
-//   for (var i = 1; i < myData.length; i++) {
-//     var obj = {};
-//     for (var j = 0; j < myData[i].length; j++) {
-//       obj[myData[0][j]] =
-//         myData[i][j].match(/^[0-9,.,\b.] +$/) != null
-//           ? JSON.parse(myData[i][j])
-//           : myData[i][j];
-//     }
-//     stops_time.push(obj);
-//   }
-//   var filtred = stops_time.filter((el) => el.stop_id == info);
-//   let getNextTimeFromArr = (str) =>
-//     typeof str == "string"
-//       ? parseFloat(str.slice(0, 5).replace(":", ""))
-//       : str;
-//   const now = () => {
-//     var x = new Date().toLocaleTimeString();
-//     var res = null;
-//     x.search("pm") == -1
-//       ? (res = getNextTimeFromArr(x) + 1200)
-//       : (res = getNextTimeFromArr(x));
-//     return res;
-//   };
 
-//   let newFiltred = filtred.filter(
-//     (el) => 1300 < getNextTimeFromArr(el.arrival_time)
-//   );
-//   res.send(newFiltred);
-// });
 // });

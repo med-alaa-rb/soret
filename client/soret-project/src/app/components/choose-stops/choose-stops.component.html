@@ -1,0 +1,17 @@
+<ion-card style="border: 2 px solid green">
+  <ion-card-title> trip detail </ion-card-title>
+  <ion-card>
+    <ion-card-content *ngFor="let el of popData">
+      <ion-item>
+        <p>
+          trip :<strong>{{ el.trip_headsign }}</strong>
+        </p>
+      </ion-item>
+      <ion_item>
+        <span *ngIf="el.direction == 1; else cndFalse"> aller </span>
+        <ng-template #cndFalse> retour </ng-template>
+        <span>{{ el.arrival_time }}</span>
+      </ion_item>
+    </ion-card-content>
+  </ion-card>
+</ion-card>

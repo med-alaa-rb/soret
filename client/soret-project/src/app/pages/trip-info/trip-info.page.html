@@ -11,19 +11,24 @@
       id="mapId1"
       style="height: 200px; border: 1px solid greenyellow"
     ></ion-card>
-
-    <ion-item>
-      <ion-icon name="football" item-start large></ion-icon>
-      <h2>Museum of Football</h2>
-      <p>11 N. Way St, Madison, WI 53703</p>
-    </ion-item>
-    <ion-item>
-      <span item-start>18 min</span>
-      <span item-start>(2.6 mi)</span>
-      <button ion-button icon-start clear item-end>
-        <ion-icon name="navigate"></ion-icon>
-        Start
-      </button>
-    </ion-item>
+    <ion-card-title>Nearest stops</ion-card-title>
+    <ion-card-content *ngFor="let item of info">
+      <ion-item>
+        <h2>{{item.stop_name}}</h2>
+      </ion-item>
+      <ion-item>
+        <span item-start>{{item.diff}}</span>
+        <button
+          ion-button
+          icon-start
+          clear
+          item-end
+          (click)="checkTime(item.stop_id)"
+        >
+          <!-- <ion-icon name="notifications"></ion-icon> -->
+          check time
+        </button>
+      </ion-item>
+    </ion-card-content>
   </ion-card>
 </ion-content>
