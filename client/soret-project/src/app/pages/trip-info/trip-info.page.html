@@ -6,13 +6,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card style="background-color: orange">
     <ion-card
       id="mapId1"
       style="height: 200px; border: 1px solid greenyellow"
     ></ion-card>
-    <ion-card-title>Nearest stops</ion-card-title>
-    <ion-card-content *ngFor="let item of info">
+    <ion-card-title style="text-align: center">Nearest stops</ion-card-title>
+    <ion-card *ngFor="let item of info">
       <ion-item>
         <h2>{{item.stop_name}}</h2>
       </ion-item>
@@ -29,6 +29,6 @@
           check time
         </button>
       </ion-item>
-    </ion-card-content>
+    </ion-card>
   </ion-card>
 </ion-content>

@@ -5,6 +5,11 @@
   "npmClient": "npm",
   "webDir": "www",
   "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#488AFF",
+      "sound": "./src/assets/notification_sound.mp3"
+    },
     "SplashScreen": {
       "launchShowDuration": 0
     }

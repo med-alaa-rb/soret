@@ -1,17 +1,25 @@
-<ion-card style="border: 2 px solid green">
-  <ion-card-title> trip detail </ion-card-title>
-  <ion-card>
-    <ion-card-content *ngFor="let el of popData">
+<ion-card style="border: 2 px solid green; background-color: orange">
+  <ion-card-title style="text-align: center"> trip detail </ion-card-title>
+
+  <ion-card-content *ngFor="let el of data">
+    <ion-card>
       <ion-item>
-        <p>
-          trip :<strong>{{ el.trip_headsign }}</strong>
-        </p>
+        <ion-icon
+          name="notifications"
+          style="color: green; text-align: center"
+          (click)="lclNotification()"
+        ></ion-icon>
       </ion-item>
-      <ion_item>
-        <span *ngIf="el.direction == 1; else cndFalse"> aller </span>
-        <ng-template #cndFalse> retour </ng-template>
-        <span>{{ el.arrival_time }}</span>
-      </ion_item>
-    </ion-card-content>
-  </ion-card>
+      <ion-item>
+        <h3>trip : {{ el.trip_headsign }}</h3>
+      </ion-item>
+      <ion-item>
+        <span *ngIf="el.direction == 1; else cndFalse">Direction : aller </span>
+        <ng-template #cndFalse>Direction : retour </ng-template>
+      </ion-item>
+      <ion-item>
+        <span>arrival time : {{ el.arrival_time }}</span>
+      </ion-item>
+    </ion-card>
+  </ion-card-content>
 </ion-card>
