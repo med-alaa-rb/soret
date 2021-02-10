@@ -14,6 +14,7 @@ export class Tab2Page {
   myMap: any;
   stopName: any;
   dragMarker: any;
+  detail: any;
 
   constructor(
     private _http: HttpService,
@@ -65,7 +66,7 @@ export class Tab2Page {
           if (res != []) {
             await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
             await this.addStops(res, 0);
-            this.addDetail(res[0].stop_name);
+            this.detail = res[0].stop_name;
           }
         });
   }
@@ -101,11 +102,6 @@ export class Tab2Page {
         return;
       }
     }
-  }
-
-  async addDetail(str) {
-    console.log(str);
-    return (document.getElementById('detail').textContent = str);
   }
 
   // async welcomePage() {

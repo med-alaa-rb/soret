@@ -59,6 +59,7 @@ export class TripInfoPage {
       component: ChooseStopsComponent,
       cssClass: 'my-custom-class',
       translucent: true,
+      
     });
     return await popover.present();
   }

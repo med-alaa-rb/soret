@@ -9,6 +9,7 @@ export class HttpService {
   modalData: any;
   userChecked: boolean = false;
   popoverData: any;
+  allTripData: any;
 
   constructor(private http: HttpClient) {}
   ROOT_URL = 'http://localhost:3000';
@@ -23,5 +24,8 @@ export class HttpService {
   }
   getStopTimes(id) {
     return this.http.get(this.ROOT_URL + `/data/api/2020/stopsTimes/${id}`);
+  }
+  getShapes(id) {
+    return this.http.get(this.ROOT_URL + `/data/2020/data/shapes/${id}`);
   }
 }

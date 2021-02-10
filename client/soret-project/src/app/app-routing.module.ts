@@ -17,7 +17,11 @@ const routes: Routes = [
   {
     path: 'trip-info',
     loadChildren: () => import('./pages/trip-info/trip-info.module').then( m => m.TripInfoPageModule)
+  },  {
+    path: 'all-trip',
+    loadChildren: () => import('./pages/all-trip/all-trip.module').then( m => m.AllTripPageModule)
   }
+
 ];
 @NgModule({
   imports: [

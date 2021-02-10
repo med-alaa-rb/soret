@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { ToastController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+import { AllTripPage } from '../../pages/all-trip/all-trip.page';
+
 const { LocalNotifications } = Plugins;
 
 @Component({
@@ -13,7 +16,8 @@ export class ChooseStopsComponent implements OnInit {
   data: any;
   constructor(
     private toastController: ToastController,
-    public _http: HttpService
+    public _http: HttpService,
+    public modalCtrl: ModalController
   ) {}
 
   async ngOnInit() {
@@ -50,5 +54,15 @@ export class ChooseStopsComponent implements OnInit {
     });
     console.log('scheduled notifications', notifs);
     this.activeNotication();
+  }
+
+  async showAll(id) {
+    this._http.allTripData = id;
+    const modal = await this.modalCtrl.create({
+      component: AllTripPage,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+    });
+    return await modal.present();
   }
 }

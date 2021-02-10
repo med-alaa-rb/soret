@@ -1,12 +1,16 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>trip-info</ion-title>
+    <ion-icon
+      name="close"
+      (click)="closeModal()"
+      style="padding: 5px"
+    ></ion-icon>
   </ion-toolbar>
-  <ion-button (click)="closeModal()">close</ion-button>
 </ion-header>
 
 <ion-content>
-  <ion-card style="background-color: orange">
+  <ion-card style="background-color: orangered">
     <ion-card
       id="mapId1"
       style="height: 200px; border: 1px solid greenyellow"
