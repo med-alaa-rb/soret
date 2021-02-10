@@ -1,32 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="arrow-back-circle-outline" (click)="back()"></ion-icon>
-    <ion-title style="text-align: center;"
-      >Search Map</ion-title
-    >
-    <ion-searchbar
-      #searchVal
-      (ionChange)="search(searchVal.value)"
-    ></ion-searchbar>
+    <ion-title style="text-align: center">Search Map</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content style="background-color: orangered">
-  <ion-card style="border: 1px solid green; box-shadow: 4px 4px; opacity: 0.85">
-    <div id="mapId3" style="height: 380px"></div>
-  </ion-card>
   <ion-card
     style="
-      height: 100px;
+      height: 55px;
       border: 1px solid green;
       box-shadow: 4px 4px;
       opacity: 0.85;
     "
   >
-    <span>detail :</span>
-    <br />
-    <br />
-    <ion-button>hi</ion-button>
-    <ion-button>hi</ion-button>
+    <h2><strong>detail :</strong></h2>
+    <h2 id="detail"></h2>
+  </ion-card>
+  <ion-card style="border: 1px solid green; box-shadow: 4px 4px; opacity: 0.85">
+    <div id="mapId3" style="height: 380px"></div>
+  </ion-card>
+
+  <ion-card>
+    <ion-searchbar
+      #searchVal
+      (ionChange)="search(searchVal.value)"
+    ></ion-searchbar>
   </ion-card>
 </ion-content>
