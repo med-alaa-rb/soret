@@ -158,7 +158,9 @@ fsRouter.post("/data/api/sendUserDestination", (req, res) => {
         }
         return arr;
       };
-      var arr = lastRes(sortedStops).filter((el) => el.id % 2 === 0);
+      var arr = lastRes(sortedStops)
+        .filter((el) => el.id % 2 === 0)
+        .splice(0, 10);
       res.send(arr);
     });
   });

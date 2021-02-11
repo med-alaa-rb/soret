@@ -11,6 +11,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class AllTripPage {
   myMap: any;
+  markerLayer: any;
 
   constructor(
     private _http: HttpService,
@@ -18,8 +19,10 @@ export class AllTripPage {
     public modalController: ModalController
   ) {}
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
+    this.loadMap([35.5, 10]);
     this._http.getShapes(this._http.allTripData).subscribe(async (res) => {
+      console.log(res);
       if (res) {
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
         await this.addStops(res, 0);
@@ -45,7 +48,7 @@ export class AllTripPage {
     if (!arr) {
       return;
     } else if (arr[i]) {
-      await L.marker([arr[i].stop_lat, arr[i].stop_lon], {
+     this.markerLayer = await L.marker([arr[i].shape_pt_lat, arr[i].shape_pt_lon], {
         icon: L.icon({
           iconUrl: '../../../assets/icon/custom-marker-icon.png',
           iconSize: [7, 7],
@@ -58,5 +61,8 @@ export class AllTripPage {
         return;
       }
     }
+  }
+  close() {
+    this.modalController.dismiss();
   }
 }

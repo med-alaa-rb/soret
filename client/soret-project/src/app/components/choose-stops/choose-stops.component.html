@@ -1,19 +1,23 @@
-<ion-card
-  style="border: 2 px solid green; background-color: orange; width: 90%"
->
-  <ion-card-title style="text-align: center"> trip detail </ion-card-title>
+<ion-card style="background-color: orangered; margin-top: 10px">
+  <ion-card-title style="text-align: center">
+    <h2>trip detail</h2>
+  </ion-card-title>
 
   <ion-card-content *ngFor="let el of data">
     <ion-card>
       <ion-item>
-        <h3>trip : {{ el.trip_headsign }}</h3>
+        <h3>
+          trip : <strong>{{ el.trip_headsign }}</strong>
+        </h3>
       </ion-item>
       <ion-item>
         <span *ngIf="el.direction == 1; else cndFalse">Direction : aller </span>
         <ng-template #cndFalse>Direction : retour </ng-template>
       </ion-item>
       <ion-item>
-        <span>arrival time : {{ el.arrival_time }}</span>
+        <h3>
+          arrival time : <strong>{{ el.arrival_time }}</strong>
+        </h3>
       </ion-item>
       <ion-item>
         <ion-button>
@@ -25,9 +29,9 @@
           active notification
         </ion-button>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-button (click)="showAll(el.shape_id)"> show all trip </ion-button>
-      </ion-item>
+      </ion-item> -->
     </ion-card>
   </ion-card-content>
 </ion-card>

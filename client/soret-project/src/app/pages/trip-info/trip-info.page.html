@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>trip-info</ion-title>
     <ion-icon
       name="close"
       (click)="closeModal()"
-      style="padding: 5px"
+      style="float: right"
     ></ion-icon>
+    <ion-title>trip-info</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,6 +16,7 @@
       style="height: 200px; border: 1px solid greenyellow"
     ></ion-card>
     <ion-card-title style="text-align: center">Nearest stops</ion-card-title>
+
     <ion-card *ngFor="let item of info">
       <ion-item>
         <h2>{{item.stop_name}}</h2>
@@ -23,6 +24,7 @@
       <ion-item>
         <span item-start>{{item.diff}}</span>
         <button
+          style="float: right"
           ion-button
           icon-start
           clear

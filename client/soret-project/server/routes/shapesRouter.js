@@ -41,7 +41,7 @@ shapesRout.get("/data/2020/data/shapes/:id", (req, res) => {
         (el) => fixShp(el.shape_id) == shp[i] && el.shape_pt_sequence % 2 === 0
       );
     }
-    res.send(myObj[fixShp(info)]);
+    myObj[fixShp(info)] ? res.send(myObj[fixShp(info)]) : res.send(null);
   });
 });
 

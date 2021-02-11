@@ -30,9 +30,9 @@ export class TripInfoPage {
         this.info = await res;
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
         console.log(res[0]);
-         this.addStops(res, 0);
+        this.addStops(res, 0);
       } else {
-         this.loadMap([35.5, 10]);
+        this.loadMap([35.5, 10]);
       }
     });
   }
@@ -57,9 +57,6 @@ export class TripInfoPage {
     this._http.popoverData = id;
     const popover = await this.popoverController.create({
       component: ChooseStopsComponent,
-      cssClass: 'my-custom-class',
-      translucent: true,
-      
     });
     return await popover.present();
   }
