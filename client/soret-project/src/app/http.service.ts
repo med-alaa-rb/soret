@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HttpService {
   userLocation: any = {};
-  modalData: any;
+  modalData: any ;
   userChecked: boolean = false;
   popoverData: any;
   allTripData: any;

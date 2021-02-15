@@ -16,7 +16,9 @@
     <ion-list>
       <ion-item *ngFor="let element of searchList">
         <label>{{element.stop_name}}</label>
-        <ion-button (click)="getCoords(element)">info</ion-button>
+        <ion-button  (click)="getCoords(element)"
+          >info</ion-button
+        >
       </ion-item>
     </ion-list>
   </div>

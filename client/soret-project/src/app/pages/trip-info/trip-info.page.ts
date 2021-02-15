@@ -23,13 +23,11 @@ export class TripInfoPage {
   ) {}
 
   async ionViewDidEnter() {
-    var obj = { uP: this._http.userLocation, uD: this._http.modalData.stop_id };
+    var obj = { uP: this._http.userLocation, uD: this._http.modalData};
     this._http.postDesId(obj).subscribe(async (res) => {
-      console.log(res);
       if (res) {
         this.info = await res;
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
-        console.log(res[0]);
         this.addStops(res, 0);
       } else {
         this.loadMap([35.5, 10]);
@@ -57,6 +55,7 @@ export class TripInfoPage {
     this._http.popoverData = id;
     const popover = await this.popoverController.create({
       component: ChooseStopsComponent,
+      cssClass: "pop"
     });
     return await popover.present();
   }

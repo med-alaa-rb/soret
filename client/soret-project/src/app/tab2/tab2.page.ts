@@ -72,7 +72,7 @@ export class Tab2Page {
   }
 
   async getCoords(el) {
-    this._http.modalData = el;
+    this._http.modalData = el.stop_id;
     const modal = await this.modalController.create({
       component: TripInfoPage,
       cssClass: 'my-custom-class',
