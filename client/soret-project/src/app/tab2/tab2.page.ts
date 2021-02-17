@@ -53,8 +53,7 @@ export class Tab2Page {
         draggable: false,
       }
     )
-      .on('click', () => console.log('marker'))
-      .bindPopup(`<h5>check your actual position</h5>`)
+      .bindPopup(`<h5> your actual position</h5>`)
       .openPopup()
       .addTo(this.myMap);
   }
@@ -72,13 +71,17 @@ export class Tab2Page {
   }
 
   async getCoords(el) {
-    this._http.modalData = el.stop_id;
-    const modal = await this.modalController.create({
-      component: TripInfoPage,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-    });
-    return await modal.present();
+    if (!el['stop_id']) {
+      return;
+    } else {
+      this._http.modalData = el.stop_id;
+      const modal = await this.modalController.create({
+        component: TripInfoPage,
+        cssClass: 'my-custom-class',
+        swipeToClose: true,
+      });
+      return await modal.present();
+    }
   }
 
   async addStops(arr, i) {
@@ -92,9 +95,9 @@ export class Tab2Page {
         }),
         draggable: false,
       })
-        .on('click', () => this.getCoords(arr[i]))
-        .bindPopup(`<h5>${arr[i].stop_name}</h5>`)
         .openPopup()
+        .bindPopup(`<h5>${arr[i].stop_name}`)
+        .on('click', () => this.getCoords(arr[i]))
         .addTo(this.myMap);
       if (arr[i++]) {
         this.addStops(arr, i++);

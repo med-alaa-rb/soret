@@ -5,25 +5,16 @@
 </ion-header>
 
 <ion-content style="background-color: orangered">
-  <ion-card
-    style="
-      height: 55px;
-      border: 1px solid green;
-      box-shadow: 4px 4px;
-      opacity: 0.85;
-    "
-  >
-    <h2><strong>detail :</strong></h2>
-    <h2 id="detail">{{detail}}</h2>
-  </ion-card>
-  <ion-card style="border: 1px solid green; box-shadow: 4px 4px; opacity: 0.85">
-    <div id="mapId3" style="height: 380px"></div>
-  </ion-card>
+  <ion-card style="border: 4px solid black">
+    <ion-card style="box-shadow: 4px 4px; opacity: 0.85; height: 420px">
+      <div id="mapId3" style="height: 420px"></div>
+    </ion-card>
 
-  <ion-card>
-    <ion-searchbar
-      #searchVal
-      (ionChange)="search(searchVal.value)"
-    ></ion-searchbar>
+    <ion-card style= "background-color: bisque;">
+      <ion-searchbar
+        #searchVal
+        (ionChange)="search(searchVal.value)"
+      ></ion-searchbar>
+    </ion-card>
   </ion-card>
 </ion-content>

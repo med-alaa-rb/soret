@@ -1,15 +1,18 @@
-import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
 import { HomePage } from '../pages/home/home.page';
+import { Plugins } from '@capacitor/core';
+const { Toast } = Plugins;
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
-export class Tab1Page implements AfterViewInit, OnInit {
+export class Tab1Page implements AfterViewInit {
   list: any;
   searchList: any;
 
@@ -18,12 +21,6 @@ export class Tab1Page implements AfterViewInit, OnInit {
     public modalController: ModalController
   ) {}
 
-  async ngOnInit() {
-    if (!this._http.userChecked) {
-      this.welcomePage();
-    }
-  }
-
   async ngAfterViewInit() {
     await this._http.getStops('allData').subscribe((res) => {
       this.searchList = res;
@@ -31,7 +28,6 @@ export class Tab1Page implements AfterViewInit, OnInit {
   }
 
   async searchStops(x) {
-    console.log(x);
     if (!x) {
       x = 'allData';
     } else {
@@ -67,12 +63,16 @@ export class Tab1Page implements AfterViewInit, OnInit {
     return await modal.present();
   }
 
-  async welcomePage() {
-    const modal = await this.modalController.create({
-      component: HomePage,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
+  async addToFav(el, id) {
+    console.log(el);
+    id.name = 'star';
+    await Storage.set({
+      key: el.stop_name,
+      value: el.stop_id,
     });
-    return await modal.present();
+    await Toast.show({
+      text: 'stop add to your favorite!!',
+    });
+    // console.log(el);
   }
 }

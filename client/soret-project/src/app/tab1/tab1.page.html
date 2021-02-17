@@ -10,15 +10,31 @@
     animated
     cancel-button-icon
     (ionChange)="searchStops($event.target.value)"
-    placeholder="Search Some Values"
+    placeholder="...Search"
   ></ion-searchbar>
   <div>
     <ion-list>
-      <ion-item *ngFor="let element of searchList">
-        <label>{{element.stop_name}}</label>
-        <ion-button  (click)="getCoords(element)"
-          >info</ion-button
+      <ion-item
+        style="margin: 30px; margin-top: 10px"
+        *ngFor="let element of searchList"
+      >
+        <ion-label>
+          <h2>
+            <strong>{{element.stop_name}}</strong>
+          </h2>
+        </ion-label>
+        <ion-badge
+          style="margin-right: 10px; background-color: white; color: orangered"
+          (click)="getCoords(element)"
+          >info</ion-badge
         >
+        <ion-badge style="background-color: white; color: orangered">
+          <ion-icon
+            #icon
+            name="star-outline"
+            (click)="addToFav(element, icon)"
+          ></ion-icon>
+        </ion-badge>
       </ion-item>
     </ion-list>
   </div>

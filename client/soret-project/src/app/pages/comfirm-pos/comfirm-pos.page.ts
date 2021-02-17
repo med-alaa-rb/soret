@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
 import * as L from 'leaflet';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -21,6 +23,8 @@ export class ComfirmPosPage {
   ) {}
 
   async ionViewDidEnter() {
+    console.log(this._http.userLocation);
+
     await this.loadMap([
       this._http.userLocation.lat,
       this._http.userLocation.lng,
@@ -59,9 +63,9 @@ export class ComfirmPosPage {
   }
 
   closeModal() {
-    this._http.userLocation = this.dragMarker._latlng;
+    console.log(this.dragMarker['_latlng']);
+    this._http.locate(this.dragMarker['_latlng']);
     !this._http.userChecked;
-    console.log(this._http.userLocation);
     this.modalctrl.dismiss();
   }
 

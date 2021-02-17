@@ -23,8 +23,10 @@ export class TripInfoPage {
   ) {}
 
   async ionViewDidEnter() {
-    var obj = { uP: this._http.userLocation, uD: this._http.modalData};
+    var obj = { uP: this._http.userLocation, uD: this._http.modalData };
+    console.log(obj);
     this._http.postDesId(obj).subscribe(async (res) => {
+      console.log(res);
       if (res) {
         this.info = await res;
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
@@ -39,9 +41,9 @@ export class TripInfoPage {
     this.modalController.dismiss();
   }
 
-  loadMap(arr) {
+  async loadMap(arr) {
     this.myMap ? this.myMap.remove() : this.myMap;
-    this.myMap = new L.Map('mapId1').setView(arr, 11.6);
+    this.myMap = await new L.Map('mapId1').setView(arr, 11.6);
     L.tileLayer(
       'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3',
       {
@@ -49,13 +51,14 @@ export class TripInfoPage {
           'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
       }
     ).addTo(this.myMap);
+    await this.addUserInfo();
   }
 
   async checkTime(id) {
     this._http.popoverData = id;
     const popover = await this.popoverController.create({
       component: ChooseStopsComponent,
-      cssClass: "pop"
+      cssClass: 'pop',
     });
     return await popover.present();
   }
@@ -81,5 +84,17 @@ export class TripInfoPage {
         return;
       }
     }
+  }
+  async addUserInfo() {
+    await L.marker([this._http.userLocation.lat, this._http.userLocation.lng], {
+      icon: L.icon({
+        iconUrl: '../../../assets/icon/favpng_craft-pizza-beer.png',
+        iconSize: [40, 40],
+      }),
+      draggable: false,
+    })
+      .bindPopup(`<h5>your actual position</h5>`)
+      .openPopup()
+      .addTo(this.myMap);
   }
 }

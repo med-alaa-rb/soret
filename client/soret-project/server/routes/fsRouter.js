@@ -72,7 +72,7 @@ var clearArr = (arr, i) => {
 };
 
 fsRouter.get("/data/api/2020/stops/:id", (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id.toLowerCase();
   stops = [];
   fs.readFile(stopPath, (error, data) => {
     if (error) {
@@ -92,9 +92,11 @@ fsRouter.get("/data/api/2020/stops/:id", (req, res) => {
       }
       stops.push(obj);
     }
-    id === "allData"
+    id == "alldata"
       ? res.send(stops)
-      : res.send(stops.filter((res) => res.stop_name.search(id) != -1));
+      : res.send(
+          stops.filter((res) => res.stop_name.toLowerCase().search(id) != -1)
+        );
   });
 });
 
