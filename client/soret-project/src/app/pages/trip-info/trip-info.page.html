@@ -10,30 +10,38 @@
 </ion-header>
 
 <ion-content>
-  <ion-card style="background-color: orangered">
+  <ion-card style="background-color: grey">
     <ion-card
       id="mapId1"
-      style="height: 200px; border: 1px solid greenyellow"
+      style="height: 200px; border: 2px solid orangered"
     ></ion-card>
     <ion-card-title style="text-align: center">Nearest stops</ion-card-title>
 
     <ion-card *ngFor="let item of info">
-      <ion-item>
-        <h2>{{item.stop_name}}</h2>
-      </ion-item>
-      <ion-item>
-        <span item-start>{{item.diff}}</span>
-        <ion-button
-          style="float: right"
-          ion-button
-          icon-start
-          clear
-          item-end
-          (click)="checkTime(item.stop_id)"
+      <!-- <ion-label style="margin: 10px">
+        <ion-badge
+          ><ion-icon name="flag-sharp"></ion-icon>{{item.stop_name}}</ion-badge
         >
-          <!-- <ion-icon name="notifications"></ion-icon> -->
-          check time
-        </ion-button>
+      </ion-label>
+      <ion-label>
+        <ion-badge
+          ><ion-icon name="walk-sharp"></ion-icon>{{item.diff}}</ion-badge
+        >
+      </ion-label>
+      <ion-button (click)="checkTime(item.stop_id)">
+        check time
+      </ion-button> -->
+      <ion-item>
+        <ion-label><strong>{{item.stop_name}}</strong></ion-label>
+        <p><ion-icon name="walk-sharp"></ion-icon> : {{item.diff}}</p>
+        <ion-avatar slot="start">
+          <ion-icon
+            (click)="checkTime(item.stop_id)"
+            name="flag-sharp"
+            size="50px"
+            style="border: 3px solid black; border-radius: 8px"
+          ></ion-icon>
+        </ion-avatar>
       </ion-item>
     </ion-card>
   </ion-card>

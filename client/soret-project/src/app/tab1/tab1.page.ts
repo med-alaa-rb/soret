@@ -2,7 +2,6 @@ import { Component, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
-import { HomePage } from '../pages/home/home.page';
 import { Plugins } from '@capacitor/core';
 const { Toast } = Plugins;
 const { Storage } = Plugins;
@@ -28,6 +27,7 @@ export class Tab1Page implements AfterViewInit {
   }
 
   async searchStops(x) {
+    console.log(x);
     if (!x) {
       x = 'allData';
     } else {
@@ -55,6 +55,7 @@ export class Tab1Page implements AfterViewInit {
 
   async getCoords(el) {
     this._http.modalData = el.stop_id;
+    this._http.userDes = { lat: el.stop_lat, lng: el.stop_lon };
     const modal = await this.modalController.create({
       component: TripInfoPage,
       cssClass: 'my-custom-class',

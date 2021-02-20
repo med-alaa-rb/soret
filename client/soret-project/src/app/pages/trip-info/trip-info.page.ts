@@ -86,6 +86,7 @@ export class TripInfoPage {
     }
   }
   async addUserInfo() {
+    console.log(this._http.userDes);
     await L.marker([this._http.userLocation.lat, this._http.userLocation.lng], {
       icon: L.icon({
         iconUrl: '../../../assets/icon/favpng_craft-pizza-beer.png',
@@ -94,6 +95,17 @@ export class TripInfoPage {
       draggable: false,
     })
       .bindPopup(`<h5>your actual position</h5>`)
+      .openPopup()
+      .addTo(this.myMap);
+    await L.marker([this._http.userDes.lat, this._http.userDes.lng], {
+      icon: L.icon({
+        iconUrl:
+          '../../../assets/icon/kisspng-computer-icons-nationality-elite-advertising-event-marker-5ace9a3bed7e14.2182282915234893399728.png',
+        iconSize: [40, 40],
+      }),
+      draggable: false,
+    })
+      .bindPopup(`<h5>Destination</h5>`)
       .openPopup()
       .addTo(this.myMap);
   }

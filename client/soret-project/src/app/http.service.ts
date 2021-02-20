@@ -8,7 +8,7 @@ const { Geolocation } = Plugins;
   providedIn: 'root',
 })
 export class HttpService {
-  userDes: any;
+  userDes: any = {};
   userLocation: any = {};
   modalData: any;
   userChecked: boolean = false;

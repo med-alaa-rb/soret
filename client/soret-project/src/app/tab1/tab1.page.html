@@ -9,7 +9,8 @@
     showCancelButton
     animated
     cancel-button-icon
-    (ionChange)="searchStops($event.target.value)"
+    #search
+    (ionChange)="searchStops(search.value)"
     placeholder="...Search"
   ></ion-searchbar>
   <div>
