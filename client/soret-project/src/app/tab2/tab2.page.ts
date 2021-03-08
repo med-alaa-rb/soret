@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import { HttpService } from '../http.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
+import { Plugins } from '@capacitor/core';
+const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-tab2',
@@ -18,7 +19,6 @@ export class Tab2Page {
 
   constructor(
     private _http: HttpService,
-    private router: Router,
     public modalController: ModalController
   ) {}
 
@@ -27,6 +27,10 @@ export class Tab2Page {
       this._http.userLocation.lat,
       this._http.userLocation.lng,
     ]);
+    await SplashScreen.show({
+      showDuration: 2000,
+      autoHide: true,
+    });
   }
 
   async loadMap(arr) {

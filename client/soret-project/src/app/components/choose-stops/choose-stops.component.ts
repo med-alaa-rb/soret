@@ -22,7 +22,6 @@ export class ChooseStopsComponent implements OnInit {
 
   async ngOnInit() {
     await this._http.getStopTimes(this._http.popoverData).subscribe((res) => {
-      console.log(res);
       this.data = res;
     });
   }
@@ -37,7 +36,8 @@ export class ChooseStopsComponent implements OnInit {
     toast.present();
   }
 
-  async lclNotification() {
+  async lclNotification(icon) {
+    console.log('hiba');
     const notifs = await LocalNotifications.schedule({
       notifications: [
         {
@@ -52,8 +52,10 @@ export class ChooseStopsComponent implements OnInit {
         },
       ],
     });
+    icon.name = 'notifications';
+    icon.color = 'danger';
     console.log('scheduled notifications', notifs);
-    this.activeNotication();
+    await this.activeNotication();
   }
 
   async showAll(id) {

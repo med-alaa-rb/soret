@@ -73,6 +73,7 @@ var clearArr = (arr, i) => {
 
 fsRouter.get("/data/api/2020/stops/:id", (req, res) => {
   const id = req.params.id.toLowerCase();
+  console.log(id);
   stops = [];
   fs.readFile(stopPath, (error, data) => {
     if (error) {
@@ -95,7 +96,9 @@ fsRouter.get("/data/api/2020/stops/:id", (req, res) => {
     id == "alldata"
       ? res.send(stops)
       : res.send(
-          stops.filter((res) => res.stop_name.toLowerCase().search(id) != -1)
+          stops.filter(
+             (res) => ( res.stop_name.toLowerCase().search(id)) != -1
+          )
         );
   });
 });

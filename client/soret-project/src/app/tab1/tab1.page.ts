@@ -27,7 +27,6 @@ export class Tab1Page implements AfterViewInit {
   }
 
   async searchStops(x) {
-    console.log(x);
     if (!x) {
       x = 'allData';
     } else {
@@ -65,7 +64,6 @@ export class Tab1Page implements AfterViewInit {
   }
 
   async addToFav(el, id) {
-    console.log(el);
     id.name = 'star';
     await Storage.set({
       key: el.stop_name,
@@ -74,6 +72,5 @@ export class Tab1Page implements AfterViewInit {
     await Toast.show({
       text: 'stop add to your favorite!!',
     });
-    // console.log(el);
   }
 }

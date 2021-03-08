@@ -1,46 +1,14 @@
-
-
 <ion-content>
-  <ion-card
-    style="
-      text-align: center;
-      background-color: white;
-      border: 5px solid bisque;
-    "
+  <h2 class="text ion-text-center" id="id1"></h2>
+  <div class="container ion-text-center animation-target">
+    <img src="{{welcomePic(arrPictures, count)}}" />
+  </div>
+
+  <ion-fab-button
+    color="danger"
+    size="150px"
+    class="fab animation-targett"
+    (click)="getStarted()"
+    >START</ion-fab-button
   >
-    <ion-badge
-      style="
-        padding: 25px;
-        margin: 40px;
-        background-color: bisque;
-        border-radius: 8px;
-      "
-      ><ion-label>KAIROUAN TRANSPORT</ion-label></ion-badge
-    >
-    <br />
-    <ion-badge
-      style="
-        padding: 20px;
-        margin: 40px;
-        background-color: bisque;
-        border-radius: 8px;
-      "
-      ><ion-label>FIND YOUR DESTIANATION</ion-label></ion-badge
-    >
-    <br />
-    <ion-badge
-      style="
-        padding: 15px;
-        margin: 40px;
-        background-color: bisque;
-        border-radius: 8px;
-      "
-      ><ion-label>ACTIVE NOTIFICATION</ion-label></ion-badge
-    >
-  </ion-card>
 </ion-content>
-<ion-footer>
-  <ion-card style="text-align: center; background-color: black">
-    <ion-button (click)="getStarted()">GET STARTED</ion-button>
-  </ion-card>
-</ion-footer>

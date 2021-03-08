@@ -1,10 +1,10 @@
-<ion-card style="background-color: orangered; margin: 5px">
+<ion-card style="background-color: grey; margin: 5px; float: top">
   <ion-card-title style="text-align: center">
     <h2>trip detail</h2>
   </ion-card-title>
 
   <ion-card-content *ngFor="let el of data">
-    <ion-card>
+    <ion-card style="border: 2px solid orangered">
       <ion-item>
         <h3>
           trip : <strong>{{ el.trip_headsign }}</strong>
@@ -19,16 +19,18 @@
           arrival time : <strong>{{ el.arrival_time }}</strong>
         </h3>
       </ion-item>
-      <ion-item>
-        <ion-button>
+
+      <div style="text-align: center">
+        <h3 style="text-align: center">
           <ion-icon
-            name="notifications"
-            style="color: green; text-align: center"
-            (click)="lclNotification()"
+            #icon
+            name="notifications-off"
+            size="16px"
+            (click)="lclNotification(icon)"
           ></ion-icon>
-          active notification
-        </ion-button>
-      </ion-item>
+        </h3>
+      </div>
+
       <!-- <ion-item>
         <ion-button (click)="showAll(el.shape_id)"> show all trip </ion-button>
       </ion-item> -->
