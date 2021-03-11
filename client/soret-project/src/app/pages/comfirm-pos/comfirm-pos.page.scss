@@ -1,6 +1,7 @@
-img {
-  color: orangered ;
-  animation: pulse 1s linear infinite both;
+.anim {
+  size: 120px;
+  margin-left: 35%;
+  animation: pulse 3s linear infinite both;
 }
 
 @keyframes pulse {

@@ -25,7 +25,7 @@ export class HttpService {
   ];
 
   constructor(private http: HttpClient) {}
-  ROOT_URL = 'http://10.0.2.2:2700';
+  ROOT_URL = 'http://192.168.43.52:2700';
 
   getStops(id) {
     !id ? (id = ' ') : id;
