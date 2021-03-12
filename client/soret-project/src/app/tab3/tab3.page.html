@@ -14,7 +14,7 @@
       >
         <ion-label>
           <h2>
-            <strong>{{item}}</strong>
+            <strong>{{item.value}}</strong>
           </h2>
         </ion-label>
         <ion-badge
@@ -22,6 +22,12 @@
           (click)="access(item)"
           >info</ion-badge
         >
+        <ion-badge style="background-color: white; color: orangered">
+          <ion-icon
+            name="trash"
+            (click)="deleteItem(item)"
+          ></ion-icon>
+        </ion-badge>
       </ion-item>
     </ion-list>
   </div>

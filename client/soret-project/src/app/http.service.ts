@@ -20,7 +20,7 @@ export class HttpService {
     { id: 371, value: 'finances Mansoura' },
     { id: 386, value: 'center des etudes islamique' },
     { id: 392, value: 'garde national' },
-    { id: 403, value: 'stade ' },
+    { id: 403, value: 'stade' },
     { id: 451, value: 'gare' },
   ];
 
@@ -44,6 +44,9 @@ export class HttpService {
   getPictures() {
     return this.http.get(this.ROOT_URL + '/api/soret/welcomePic');
   }
+  checkKeys(arr) {
+    return this.http.post(this.ROOT_URL + '/api/2020/data/checkStorage', arr);
+  }
 
   async locate(obj) {
     if (!obj) {
@@ -57,15 +60,16 @@ export class HttpService {
     }
   }
 
-  async createFav(arr) {
-    for (var i = 0; i < arr.length; i++) {
-      await Storage.set({
-        key: arr[i].value,
-        value: arr[i].id,
-      });
-    }
+  async createFav() {
     var data = await Storage.keys();
-    return data.keys;
+    this.checkKeys(data).subscribe(async (res) => {
+      if (!res) {
+        await Storage.set({
+          key: 'soret-quickAcc',
+          value: JSON.stringify(this.quickAccData),
+        });
+      }
+    });
   }
 
   async picArr() {
@@ -75,5 +79,26 @@ export class HttpService {
       result.push(data);
     }
     return result;
+  }
+  addFavStops(obj) {
+    this.quickAccData.push({ id: obj.stop_id, value: obj.stop_name });
+    console.log('length', this.quickAccData.length);
+    Storage.set({
+      key: 'soret-quickAcc',
+      value: JSON.stringify(this.quickAccData),
+    });
+  }
+
+  async rmFavStops(obj) {
+    console.log(obj);
+    var ret = await Storage.get({ key: 'soret-quickAcc' });
+    var user = await JSON.parse(ret.value);
+    var arr = [];
+    for (var i = 0; i < user.length; i++) {
+      if (user[i].value != obj.value.toLowerCase()) {
+        arr.push(user[i]);
+      }
+    }
+    await Storage.set({ key: 'soret-quickAcc', value: JSON.stringify(arr) });
   }
 }

@@ -35,7 +35,7 @@ export class Tab2Page {
 
   async loadMap(arr) {
     this.myMap ? this.myMap.remove() : this.myMap;
-    this.myMap = await new L.Map('mapId3').setView(arr, 11.6);
+    this.myMap = await new L.Map('mapId3').setView(arr, 8.6);
     L.tileLayer(
       'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3',
       {

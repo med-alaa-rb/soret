@@ -64,11 +64,10 @@ export class Tab1Page implements AfterViewInit {
   }
 
   async addToFav(el, id) {
+    console.log(el)
     id.name = 'star';
-    await Storage.set({
-      key: el.stop_name,
-      value: el.stop_id,
-    });
+   
+    this._http.addFavStops(el)
     await Toast.show({
       text: 'stop add to your favorite!!',
     });

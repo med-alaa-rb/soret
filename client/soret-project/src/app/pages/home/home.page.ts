@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
 import { ComfirmPosPage } from '../comfirm-pos/comfirm-pos.page';
-import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
+
 
 @Component({
   selector: 'app-home',
@@ -14,24 +11,21 @@ const { Storage } = Plugins;
 })
 export class HomePage implements OnInit {
   arrPictures: any = [];
-  count: number = 0;
-  pic: any = this.welcomePic(this.arrPictures);
+  pic: any;
 
   constructor(
     public modalController: ModalController,
     public _http: HttpService,
-    public router: Router,
-    public navCtrl: NavController
   ) {}
 
   async ngOnInit() {
     this.arrPictures = this._http.picArr()['__zone_symbol__value'];
+    this.pic = await this.welcomePic(this.arrPictures);
     await this._http.locate(null);
     this.makeText();
   }
 
   async getStarted() {
-    this.count++;
     this.modalController.dismiss();
     const modal = await this.modalController.create({
       component: ComfirmPosPage,
@@ -42,14 +36,8 @@ export class HomePage implements OnInit {
   }
 
   async welcomePic(arr) {
-    
-    if (this.count === 14) {
-      this.count = 0;
-      return arr[this.count];
-    }
-    else {
-      return arr[this.count];
-    }
+    var val = await Math.ceil(Math.random() * Math.random() * 13);
+    return arr[val];
   }
 
   makeText() {

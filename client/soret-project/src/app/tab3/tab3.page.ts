@@ -20,16 +20,16 @@ export class Tab3Page implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.data = await this._http.createFav(this._http.quickAccData);
-    console.log(this.data);
+    this._http.createFav();
     if (!this._http.userChecked) {
-      this.welcomePage();
+      await this.welcomePage();
     }
+    var ret = await Storage.get({ key: 'soret-quickAcc' });
+    this.data = await JSON.parse(ret.value);
   }
 
   async access(name) {
-    const { value } = await Storage.get({ key: name });
-    this._http.modalData = await JSON.parse(value);
+    this._http.modalData = name.id;
     const modal = await this.modalController.create({
       component: TripInfoPage,
       cssClass: 'my-custom-class',
@@ -45,5 +45,8 @@ export class Tab3Page implements OnInit {
       swipeToClose: true,
     });
     return await modal.present();
+  }
+  deleteItem(el) {
+    this._http.rmFavStops(el);
   }
 }
