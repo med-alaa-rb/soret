@@ -17,7 +17,13 @@ app.use("/", paths);
 app.use("/", shapesRout);
 
 app.post("/api/2020/data/checkStorage", async (req, res) => {
-  res.send(req.body.keys.includes("soret-quickAcc"));
+  res.send(await req.body.includes("soret-quickAcc"));
+});
+
+app.post("/api/2020/data/deleteFav", async (req, res) => {
+  console.log(req.body);
+  var result = req.body.arr.filter((el) => el.value != req.body.val);
+  res.send(result);
 });
 
 var port = process.env.PORT || 2700;

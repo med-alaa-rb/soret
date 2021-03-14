@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
 import * as L from 'leaflet';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -23,11 +22,9 @@ export class ComfirmPosPage {
   ) {}
 
   async ionViewDidEnter() {
-    console.log(this._http.userLocation);
-
     await this.loadMap([
-      this._http.userLocation.lat,
-      this._http.userLocation.lng,
+      this._http.nonComfirmedLocation.lat,
+      this._http.nonComfirmedLocation.lng,
     ]);
     await this.userAddMarker();
     await this.loadToast();
@@ -47,7 +44,10 @@ export class ComfirmPosPage {
 
   async userAddMarker() {
     this.dragMarker = await L.marker(
-      [this._http.userLocation.lat, this._http.userLocation.lng],
+      [
+        this._http.nonComfirmedLocation.lat,
+        this._http.nonComfirmedLocation.lng,
+      ],
       {
         icon: L.icon({
           iconUrl: '../../../assets/icon/favpng_craft-pizza-beer.png',
@@ -56,10 +56,10 @@ export class ComfirmPosPage {
         draggable: true,
       }
     )
+      .addTo(this.map)
       .on('click', () => console.log('marker'))
-      .bindPopup(`<h5>check your actual position</h5>`)
-      .openPopup()
-      .addTo(this.map);
+      .bindPopup(`<h5>Drag your actual position</h5>`)
+      .openPopup();
   }
 
   closeModal() {
@@ -72,7 +72,7 @@ export class ComfirmPosPage {
   async loadToast() {
     const toast = await this.toastController.create({
       message: 'Kindly, comfirm your position',
-      duration: 5000,
+      duration: 3000,
       color: 'danger',
       position: 'bottom',
     });

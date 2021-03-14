@@ -27,12 +27,13 @@ export class TripInfoPage {
     console.log(obj);
     this._http.postDesId(obj).subscribe(async (res) => {
       console.log(res);
-      if (res) {
-        this.info = await res;
+      if (!res[0]) {
+        await this.loadMap([35.5, 10]);
+        return;
+      } else {
+        this.info = res;
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
         this.addStops(res, 0);
-      } else {
-        this.loadMap([35.5, 10]);
       }
     });
   }
@@ -74,10 +75,9 @@ export class TripInfoPage {
         }),
         draggable: false,
       })
-        .on('click', () => console.log('marker'))
+        .addTo(this.myMap)
         .bindPopup(`<h5>${arr[i].stop_name}</h5>`)
-        .openPopup()
-        .addTo(this.myMap);
+        .openPopup();
       if (arr[i++]) {
         this.addStops(arr, i++);
       } else {
@@ -86,7 +86,6 @@ export class TripInfoPage {
     }
   }
   async addUserInfo() {
-    console.log(this._http.userDes);
     await L.marker([this._http.userLocation.lat, this._http.userLocation.lng], {
       icon: L.icon({
         iconUrl: '../../../assets/icon/favpng_craft-pizza-beer.png',
@@ -94,19 +93,21 @@ export class TripInfoPage {
       }),
       draggable: false,
     })
+      .addTo(this.myMap)
       .bindPopup(`<h5>your actual position</h5>`)
-      .openPopup()
-      .addTo(this.myMap);
-    await L.marker([this._http.userDes.lat, this._http.userDes.lng], {
-      icon: L.icon({
-        iconUrl:
-          '../../../assets/icon/kisspng-computer-icons-nationality-elite-advertising-event-marker-5ace9a3bed7e14.2182282915234893399728.png',
-        iconSize: [40, 40],
-      }),
-      draggable: false,
-    })
-      .bindPopup(`<h5>Destination</h5>`)
-      .openPopup()
-      .addTo(this.myMap);
+      .openPopup();
+    if (this._http.userDes.lat) {
+      await L.marker([this._http.userDes.lat, this._http.userDes.lng], {
+        icon: L.icon({
+          iconUrl:
+            '../../../assets/icon/kisspng-computer-icons-nationality-elite-advertising-event-marker-5ace9a3bed7e14.2182282915234893399728.png',
+          iconSize: [60, 60],
+        }),
+        draggable: false,
+      })
+        .addTo(this.myMap)
+        .bindPopup(`<h5>Destination</h5>`)
+        .openPopup();
+    }
   }
 }

@@ -8,7 +8,8 @@ const { Geolocation } = Plugins;
   providedIn: 'root',
 })
 export class HttpService {
-  userDes: any = {};
+  userDes: any = null;
+  nonComfirmedLocation: any = {};
   userLocation: any = {};
   modalData: any;
   userChecked: boolean = false;
@@ -33,7 +34,15 @@ export class HttpService {
   }
 
   postDesId(obj) {
-    return this.http.post(this.ROOT_URL + `/data/api/sendUserDestination`, obj);
+    if (!obj['uP']) {
+      console.log('pos not defined');
+      return;
+    } else {
+      return this.http.post(
+        this.ROOT_URL + `/data/api/sendUserDestination`,
+        obj
+      );
+    }
   }
   getStopTimes(id) {
     return this.http.get(this.ROOT_URL + `/data/api/2020/stopsTimes/${id}`);
@@ -47,13 +56,16 @@ export class HttpService {
   checkKeys(arr) {
     return this.http.post(this.ROOT_URL + '/api/2020/data/checkStorage', arr);
   }
+  deleteFromKeys(obj) {
+    return this.http.post(this.ROOT_URL + '/api/2020/data/deleteFav', obj);
+  }
 
   async locate(obj) {
     if (!obj) {
       const coordinates = await Geolocation.getCurrentPosition();
 
-      this.userLocation['lng'] = coordinates['coords']['longitude'];
-      this.userLocation['lat'] = coordinates['coords']['latitude'];
+      this.nonComfirmedLocation['lng'] = coordinates['coords']['longitude'];
+      this.nonComfirmedLocation['lat'] = coordinates['coords']['latitude'];
     } else {
       this.userLocation['lng'] = obj['lng'];
       this.userLocation['lat'] = obj['lat'];
@@ -62,7 +74,7 @@ export class HttpService {
 
   async createFav() {
     var data = await Storage.keys();
-    this.checkKeys(data).subscribe(async (res) => {
+    this.checkKeys(data.keys).subscribe(async (res) => {
       if (!res) {
         await Storage.set({
           key: 'soret-quickAcc',
@@ -90,15 +102,15 @@ export class HttpService {
   }
 
   async rmFavStops(obj) {
-    console.log(obj);
+    console.log("rm",obj);
     var ret = await Storage.get({ key: 'soret-quickAcc' });
     var user = await JSON.parse(ret.value);
-    var arr = [];
-    for (var i = 0; i < user.length; i++) {
-      if (user[i].value != obj.value.toLowerCase()) {
-        arr.push(user[i]);
-      }
-    }
-    await Storage.set({ key: 'soret-quickAcc', value: JSON.stringify(arr) });
+    this.deleteFromKeys({ arr: user, val: obj.value }).subscribe((res) => {
+      console.log(res);
+      Storage.set({
+        key: 'soret-quickAcc',
+        value: JSON.stringify(res),
+      });
+    });
   }
 }

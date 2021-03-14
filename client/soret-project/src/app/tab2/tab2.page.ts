@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { HttpService } from '../http.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
+import { ComfirmPosPage } from '../pages/comfirm-pos/comfirm-pos.page';
 import { Plugins } from '@capacitor/core';
 const { SplashScreen } = Plugins;
 
@@ -57,9 +58,9 @@ export class Tab2Page {
         draggable: false,
       }
     )
+      .addTo(this.myMap)
       .bindPopup(`<h5> your actual position</h5>`)
-      .openPopup()
-      .addTo(this.myMap);
+      .openPopup();
   }
 
   async search(x) {
@@ -78,15 +79,26 @@ export class Tab2Page {
     if (!el['stop_id']) {
       return;
     } else {
-      this._http.modalData = el.stop_id;
-      const modal = await this.modalController.create({
-        component: TripInfoPage,
-        cssClass: 'my-custom-class',
-        swipeToClose: true,
-      });
-      return await modal.present();
-    }
+        this._http.modalData = el.stop_id;
+        this._http.userDes = { lat: el.stop_lat, lng: el.stop_lon };
+        console.log('loc',this._http.userLocation);
+        if (!this._http.userLocation) {
+          const modal = await this.modalController.create({
+            component: ComfirmPosPage,
+            cssClass: 'my-custom-class',
+            swipeToClose: true,
+          });
+          return await modal.present();
+        } else {
+          const modal = await this.modalController.create({
+            component: TripInfoPage,
+            cssClass: 'my-custom-class',
+            swipeToClose: true,
+          });
+          return await modal.present();
+        }
   }
+}
 
   async addStops(arr, i) {
     if (!arr) {
@@ -99,10 +111,10 @@ export class Tab2Page {
         }),
         draggable: false,
       })
-        .openPopup()
-        .bindPopup(`<h5>${arr[i].stop_name}`)
         .on('click', () => this.getCoords(arr[i]))
-        .addTo(this.myMap);
+        .addTo(this.myMap)
+        .bindPopup(`<h5>${arr[i].stop_name}`)
+        .openPopup();
       if (arr[i++]) {
         this.addStops(arr, i++);
       } else {

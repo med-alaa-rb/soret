@@ -2,9 +2,8 @@ import { Component, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
-import { Plugins } from '@capacitor/core';
-const { Toast } = Plugins;
-const { Storage } = Plugins;
+import { ComfirmPosPage } from '../pages/comfirm-pos/comfirm-pos.page';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -17,13 +16,15 @@ export class Tab1Page implements AfterViewInit {
 
   constructor(
     public _http: HttpService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private toastController: ToastController
   ) {}
 
   async ngAfterViewInit() {
     await this._http.getStops('allData').subscribe((res) => {
       this.searchList = res;
     });
+    // this.anim(0);
   }
 
   async searchStops(x) {
@@ -55,21 +56,48 @@ export class Tab1Page implements AfterViewInit {
   async getCoords(el) {
     this._http.modalData = el.stop_id;
     this._http.userDes = { lat: el.stop_lat, lng: el.stop_lon };
-    const modal = await this.modalController.create({
-      component: TripInfoPage,
-      cssClass: 'my-custom-class',
-      swipeToClose: true,
-    });
-    return await modal.present();
+    console.log('loc', this._http.userLocation);
+    if (!this._http.userLocation.lat) {
+      const modal = await this.modalController.create({
+        component: ComfirmPosPage,
+        cssClass: 'my-custom-class',
+        swipeToClose: true,
+      });
+      return await modal.present();
+    } else {
+      const modal = await this.modalController.create({
+        component: TripInfoPage,
+        cssClass: 'my-custom-class',
+        swipeToClose: true,
+      });
+      return await modal.present();
+    }
   }
 
   async addToFav(el, id) {
-    console.log(el)
+    console.log(el);
     id.name = 'star';
-   
-    this._http.addFavStops(el)
-    await Toast.show({
-      text: 'stop add to your favorite!!',
+
+    this._http.addFavStops(el);
+    const toast = await this.toastController.create({
+      message: 'stop add to quick access page',
+      duration: 3000,
+      color: 'danger',
+      position: 'bottom',
     });
+    toast.present();
   }
+
+  // async anim(x) {
+  //   var el = (arg) =>  document.getElementById(`el${arg}`);
+  //   setTimeout(async() => {
+  //     el(x).className += await 'animation-targett';
+  //   }, 1500);
+  //   el(x).className
+  //   if (!el(x++)) {
+  //     return;
+  //   } else {
+  //     return this.anim(x++);
+  //   }
+  // }
 }

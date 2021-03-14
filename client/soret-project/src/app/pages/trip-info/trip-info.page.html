@@ -18,19 +18,6 @@
     <ion-card-title style="text-align: center">Nearest stops</ion-card-title>
 
     <ion-card *ngFor="let item of info">
-      <!-- <ion-label style="margin: 10px">
-        <ion-badge
-          ><ion-icon name="flag-sharp"></ion-icon>{{item.stop_name}}</ion-badge
-        >
-      </ion-label>
-      <ion-label>
-        <ion-badge
-          ><ion-icon name="walk-sharp"></ion-icon>{{item.diff}}</ion-badge
-        >
-      </ion-label>
-      <ion-button (click)="checkTime(item.stop_id)">
-        check time
-      </ion-button> -->
       <ion-item>
         <ion-label><strong>{{item.stop_name}}</strong></ion-label>
         <p><ion-icon name="walk-sharp"></ion-icon> : {{item.diff}}</p>

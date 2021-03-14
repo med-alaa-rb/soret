@@ -3,6 +3,8 @@ import { HttpService } from '../http.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
 import { HomePage } from '../pages/home/home.page';
+import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
@@ -16,14 +18,19 @@ export class Tab3Page implements OnInit {
 
   constructor(
     public _http: HttpService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private toastController: ToastController,
+    public alertController: AlertController
   ) {}
 
   async ngOnInit() {
-    this._http.createFav();
+    await this._http.createFav();
     if (!this._http.userChecked) {
       await this.welcomePage();
     }
+  }
+
+  async ionViewDidEnter() {
     var ret = await Storage.get({ key: 'soret-quickAcc' });
     this.data = await JSON.parse(ret.value);
   }
@@ -46,7 +53,40 @@ export class Tab3Page implements OnInit {
     });
     return await modal.present();
   }
-  deleteItem(el) {
+  async deleteItem(el) {
     this._http.rmFavStops(el);
+    const toast = await this.toastController.create({
+      message: 'stop deleted!!',
+      duration: 3000,
+      color: 'danger',
+      position: 'bottom',
+    });
+    await toast.present();
+    this.ionViewDidEnter();
+  }
+
+  async default() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: '<strong>restart the app</strong>!!!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Okay',
+          handler: async () => {
+            await Storage.clear();
+            // await this._http.createFav();
+            await this.ngOnInit();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

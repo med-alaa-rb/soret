@@ -96,18 +96,21 @@ fsRouter.get("/data/api/2020/stops/:id", (req, res) => {
     id == "alldata"
       ? res.send(stops)
       : res.send(
-          stops.filter(
-             (res) => ( res.stop_name.toLowerCase().search(id)) != -1
-          )
+          stops.filter((res) => res.stop_name.toLowerCase().search(id) != -1)
         );
   });
 });
 
 fsRouter.post("/data/api/sendUserDestination", (req, res) => {
+  console.log(req.body);
   stops_time = [];
   trips = [];
   var newArr = [];
   var info = req.body.uD;
+  if (!req.body.uP) {
+    res.send(null);
+    return;
+  }
   var userPosition = req.body.uP;
   fs.readFile(stopTimes, async (error, data) => {
     if (error) {

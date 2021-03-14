@@ -37,7 +37,6 @@ export class ChooseStopsComponent implements OnInit {
   }
 
   async lclNotification(icon) {
-    console.log('hiba');
     const notifs = await LocalNotifications.schedule({
       notifications: [
         {

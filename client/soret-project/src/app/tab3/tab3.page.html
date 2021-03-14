@@ -1,6 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title class = "ion-text-center" style="font-size: 28px"> Quick Access </ion-title>
+    <ion-title class="ion-text-center" style="font-size: 28px">
+      Quick Access
+    </ion-title>
   </ion-toolbar>
   <app-explore-container name="Tab 3 page"></app-explore-container>
 </ion-header>
@@ -23,12 +25,15 @@
           >info</ion-badge
         >
         <ion-badge style="background-color: white; color: orangered">
-          <ion-icon
-            name="trash"
-            (click)="deleteItem(item)"
-          ></ion-icon>
+          <ion-icon name="trash" (click)="deleteItem(item)"></ion-icon>
         </ion-badge>
       </ion-item>
     </ion-list>
+  </div>
+  <div class="ion-text-right">
+    <ion-chip style="height: 20px" (click)="default()">
+      <ion-icon name="refresh-circle"></ion-icon>
+      <ion-label color="danger">reset</ion-label>
+    </ion-chip>
   </div>
 </ion-content>
