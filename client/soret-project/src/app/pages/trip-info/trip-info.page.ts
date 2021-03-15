@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
 import { PopoverController } from '@ionic/angular';
 import { ChooseStopsComponent } from '../../components/choose-stops/choose-stops.component';
+import { ComfirmPosPage } from '../comfirm-pos/comfirm-pos.page';
+import { ToastController } from '@ionic/angular';
 import * as L from 'leaflet';
 
 @Component({
@@ -16,21 +17,20 @@ export class TripInfoPage {
   info: any;
 
   constructor(
-    private router: Router,
     public modalController: ModalController,
     public _http: HttpService,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private toastController: ToastController
   ) {}
 
   async ionViewDidEnter() {
     var obj = { uP: this._http.userLocation, uD: this._http.modalData };
-    console.log(obj);
     this._http.postDesId(obj).subscribe(async (res) => {
-      console.log(res);
       if (!res[0]) {
         await this.loadMap([35.5, 10]);
         return;
       } else {
+        console.log(res);
         this.info = res;
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
         this.addStops(res, 0);
@@ -86,17 +86,21 @@ export class TripInfoPage {
     }
   }
   async addUserInfo() {
-    await L.marker([this._http.userLocation.lat, this._http.userLocation.lng], {
-      icon: L.icon({
-        iconUrl: '../../../assets/icon/favpng_craft-pizza-beer.png',
-        iconSize: [40, 40],
-      }),
-      draggable: false,
-    })
-      .addTo(this.myMap)
-      .bindPopup(`<h5>your actual position</h5>`)
-      .openPopup();
-    if (this._http.userDes.lat) {
+    if (this._http.userLocation['lat']) {
+      await L.marker(
+        [this._http.userLocation.lat, this._http.userLocation.lng],
+        {
+          icon: L.icon({
+            iconUrl: '../../../assets/icon/favpng_craft-pizza-beer.png',
+            iconSize: [40, 40],
+          }),
+          draggable: false,
+        }
+      )
+        .addTo(this.myMap)
+        .bindPopup(`<h5>your actual position</h5>`)
+        .openPopup();
+    } else if (this._http.userDes.lat) {
       await L.marker([this._http.userDes.lat, this._http.userDes.lng], {
         icon: L.icon({
           iconUrl:
@@ -109,5 +113,22 @@ export class TripInfoPage {
         .bindPopup(`<h5>Destination</h5>`)
         .openPopup();
     }
+      const toast = await this.toastController.create({
+        message: 'if something wrong check your position again',
+        duration: 3000,
+        color: 'danger',
+        position: 'bottom',
+      });
+      await toast.present();
+  }
+
+  async recheckPos() {
+    this.modalController.dismiss();
+    const modal = await this.modalController.create({
+      component: ComfirmPosPage,
+      cssClass: 'my-custom-class',
+    });
+
+    return await modal.present();
   }
 }

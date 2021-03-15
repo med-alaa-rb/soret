@@ -20,16 +20,25 @@
     <ion-card *ngFor="let item of info">
       <ion-item>
         <ion-label><strong>{{item.stop_name}}</strong></ion-label>
-        <p><ion-icon name="walk-sharp"></ion-icon> : {{item.diff}}</p>
-        <ion-avatar slot="start">
-          <ion-icon
-            (click)="checkTime(item.stop_id)"
-            name="flag-sharp"
-            size="50px"
-            style="border: 3px solid black; border-radius: 8px"
-          ></ion-icon>
-        </ion-avatar>
+        <ion-chip style="margin-left: 10px">
+          <ion-icon name="walk-sharp"></ion-icon> :
+          <ion-badge color="danger">{{item.diff}}</ion-badge>
+        </ion-chip>
       </ion-item>
+      <ion-avatar slot="start">
+        <ion-icon
+          (click)="checkTime(item.stop_id)"
+          name="flag-sharp"
+          size="50px"
+          style="border: 3px solid black; border-radius: 8px"
+        ></ion-icon>
+      </ion-avatar>
     </ion-card>
+    <div>
+      <h2><strong>{{this._http.userDes.stop_name}}</strong></h2>
+      <ion-badge (click)="recheckPos()" color="danger" class="ionic-text-center"
+        >re-check position</ion-badge
+      >
+    </div>
   </ion-card>
 </ion-content>
