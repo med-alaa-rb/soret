@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
 import { PopoverController } from '@ionic/angular';
@@ -12,7 +12,7 @@ import * as L from 'leaflet';
   templateUrl: './trip-info.page.html',
   styleUrls: ['./trip-info.page.scss'],
 })
-export class TripInfoPage {
+export class TripInfoPage implements OnInit {
   myMap: any;
   info: any;
 
@@ -23,15 +23,14 @@ export class TripInfoPage {
     private toastController: ToastController
   ) {}
 
-  async ionViewDidEnter() {
+  async ngOnInit() {
     var obj = { uP: this._http.userLocation, uD: this._http.modalData };
     this._http.postDesId(obj).subscribe(async (res) => {
       if (!res[0]) {
         await this.loadMap([35.5, 10]);
         return;
       } else {
-        console.log(res);
-        this.info = res;
+        this.info = await res;
         await this.loadMap([res[0].stop_lat, res[0].stop_lon]);
         this.addStops(res, 0);
       }
@@ -67,7 +66,7 @@ export class TripInfoPage {
   async addStops(arr, i) {
     if (!arr) {
       return;
-    } else if (arr[i]) {
+    } else if (arr[i].stop_name) {
       await L.marker([arr[i].stop_lat, arr[i].stop_lon], {
         icon: L.icon({
           iconUrl: '../../../assets/icon/location-marker.png',
@@ -113,13 +112,13 @@ export class TripInfoPage {
         .bindPopup(`<h5>Destination</h5>`)
         .openPopup();
     }
-      const toast = await this.toastController.create({
-        message: 'if something wrong check your position again',
-        duration: 3000,
-        color: 'danger',
-        position: 'bottom',
-      });
-      await toast.present();
+    const toast = await this.toastController.create({
+      message: 'if something wrong check your position again',
+      duration: 3000,
+      color: 'danger',
+      position: 'bottom',
+    });
+    await toast.present();
   }
 
   async recheckPos() {

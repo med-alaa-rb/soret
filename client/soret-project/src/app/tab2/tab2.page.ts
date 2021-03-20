@@ -79,26 +79,30 @@ export class Tab2Page {
     if (!el['stop_id']) {
       return;
     } else {
-        this._http.modalData = el.stop_id;
-        this._http.userDes = { lat: el.stop_lat, lng: el.stop_lon };
-        console.log('loc',this._http.userLocation);
-        if (!this._http.userLocation) {
-          const modal = await this.modalController.create({
-            component: ComfirmPosPage,
-            cssClass: 'my-custom-class',
-            swipeToClose: true,
-          });
-          return await modal.present();
-        } else {
-          const modal = await this.modalController.create({
-            component: TripInfoPage,
-            cssClass: 'my-custom-class',
-            swipeToClose: true,
-          });
-          return await modal.present();
-        }
+      this._http.modalData = el.stop_id;
+      this._http.userDes = {
+        name: el.stop_name,
+        lat: el.stop_lat,
+        lng: el.stop_lon,
+      };
+      console.log('loc', this._http.userLocation);
+      if (!this._http.userLocation) {
+        const modal = await this.modalController.create({
+          component: ComfirmPosPage,
+          cssClass: 'my-custom-class',
+          swipeToClose: true,
+        });
+        return await modal.present();
+      } else {
+        const modal = await this.modalController.create({
+          component: TripInfoPage,
+          cssClass: 'my-custom-class',
+          swipeToClose: true,
+        });
+        return await modal.present();
+      }
+    }
   }
-}
 
   async addStops(arr, i) {
     if (!arr) {

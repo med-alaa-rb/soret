@@ -55,7 +55,11 @@ export class Tab1Page implements AfterViewInit {
 
   async getCoords(el) {
     this._http.modalData = el.stop_id;
-    this._http.userDes = { lat: el.stop_lat, lng: el.stop_lon };
+    this._http.userDes = {
+      name: el.stop_name,
+      lat: el.stop_lat,
+      lng: el.stop_lon,
+    };
     console.log('loc', this._http.userLocation);
     if (!this._http.userLocation.lat) {
       const modal = await this.modalController.create({
