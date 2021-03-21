@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
+import { SettingsService } from '../../settings.service';
 import { PopoverController } from '@ionic/angular';
 import { ChooseStopsComponent } from '../../components/choose-stops/choose-stops.component';
 import { ComfirmPosPage } from '../comfirm-pos/comfirm-pos.page';
@@ -19,6 +20,7 @@ export class TripInfoPage implements OnInit {
   constructor(
     public modalController: ModalController,
     public _http: HttpService,
+    public setting: SettingsService,
     private popoverController: PopoverController,
     private toastController: ToastController
   ) {}
@@ -45,11 +47,8 @@ export class TripInfoPage implements OnInit {
     this.myMap ? this.myMap.remove() : this.myMap;
     this.myMap = await new L.Map('mapId1').setView(arr, 11.6);
     L.tileLayer(
-      'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3',
-      {
-        attribution:
-          'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-      }
+      this.setting.mapStrArr[this.setting.count],
+      this.setting.mapObjArr[this.setting.count]
     ).addTo(this.myMap);
     await this.addUserInfo();
   }
@@ -66,7 +65,7 @@ export class TripInfoPage implements OnInit {
   async addStops(arr, i) {
     if (!arr) {
       return;
-    } else if (arr[i].stop_name) {
+    } else if (arr[i]) {
       await L.marker([arr[i].stop_lat, arr[i].stop_lon], {
         icon: L.icon({
           iconUrl: '../../../assets/icon/location-marker.png',

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as L from 'leaflet';
 import { HttpService } from '../http.service';
+import { SettingsService } from '../settings.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
 import { ComfirmPosPage } from '../pages/comfirm-pos/comfirm-pos.page';
@@ -19,6 +20,7 @@ export class Tab2Page {
   detail: any;
 
   constructor(
+    public setting: SettingsService,
     private _http: HttpService,
     public modalController: ModalController
   ) {}
@@ -36,14 +38,8 @@ export class Tab2Page {
 
   async loadMap(arr) {
     this.myMap ? this.myMap.remove() : this.myMap;
-    this.myMap = await new L.Map('mapId3').setView(arr, 8.6);
-    L.tileLayer(
-      'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3',
-      {
-        attribution:
-          'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-      }
-    ).addTo(this.myMap);
+    this.myMap = await new L.Map('mapId3').setView(arr, 10.6);
+    L.tileLayer(this.setting.mapStrArr[this.setting.count], this.setting.mapObjArr[this.setting.count]).addTo(this.myMap);
     await this.userAddMarker();
   }
 

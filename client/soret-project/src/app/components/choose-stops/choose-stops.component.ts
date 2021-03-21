@@ -36,14 +36,14 @@ export class ChooseStopsComponent implements OnInit {
     toast.present();
   }
 
-  async lclNotification(icon) {
+  async lclNotification(icon, time) {
     const notifs = await LocalNotifications.schedule({
       notifications: [
         {
           title: 'Title',
           body: 'Body',
           id: 1,
-          schedule: { at: new Date(Date.now() + 5000) },
+          schedule: { at: new Date(time - 600000) },
           sound: '../../../assets/notification_sound.mp3',
           attachments: null,
           actionTypeId: '',

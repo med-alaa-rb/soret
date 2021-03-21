@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center" style="font-size: 28px">
+      Setting
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <h3 class="ion-text-center">Map Style</h3>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          ><ion-card class="mapCard"
+            ><ion-checkbox
+              checked="true"
+              value="0"
+              #card1
+              (click)="selectStyle(card2.checked)"
+            ></ion-checkbox></ion-card
+        ></ion-col>
+        <ion-col
+          ><ion-card class="mapCard"
+            ><ion-checkbox
+              checked="false"
+              value="1"
+              #card2
+              (click)="selectStyle(card1.checked)"
+            ></ion-checkbox></ion-card
+        ></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

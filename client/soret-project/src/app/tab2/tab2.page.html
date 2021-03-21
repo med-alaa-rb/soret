@@ -1,16 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class = "ion-text-center" style="font-size: 28px">Search Map</ion-title>
+    <ion-title class="ion-text-center" style="font-size: 28px"
+      >Search Map</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card style="border: 2px solid orangered">
+  <ion-card style="border: 2px solid tomato">
     <ion-card style="box-shadow: 4px 4px; opacity: 0.85; height: 420px">
-      <div id="mapId3" style="height: 80%"></div>
+      <div id="mapId3" style="height: 100%"></div>
     </ion-card>
 
-    <ion-card style="background-color: grey; opacity: 0.85;">
+    <ion-card style="background-color: lightgrey; opacity: 0.85">
       <ion-searchbar
         #searchVal
         (ionChange)="search(searchVal.value)"

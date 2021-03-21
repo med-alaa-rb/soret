@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import * as L from 'leaflet';
 import { ModalController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
+import { SettingsService } from '../../settings.service';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -13,6 +14,7 @@ export class ComfirmPosPage {
   map: any;
   dragMarker: any;
   constructor(
+    public setting: SettingsService,
     private modalctrl: ModalController,
     public _http: HttpService,
     private toastController: ToastController
@@ -34,11 +36,8 @@ export class ComfirmPosPage {
     this.map ? this.map.remove() : this.map;
     this.map = new L.Map('mapId2').setView(arr, 11.6);
     L.tileLayer(
-      'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=64a154b4ff5b439b9f0329ff92860ff3',
-      {
-        attribution:
-          'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-      }
+      this.setting.mapStrArr[this.setting.count],
+      this.setting.mapObjArr[this.setting.count]
     ).addTo(this.map);
   }
 

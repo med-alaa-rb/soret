@@ -5,6 +5,7 @@ import { TripInfoPage } from '../pages/trip-info/trip-info.page';
 import { HomePage } from '../pages/home/home.page';
 import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
@@ -20,7 +21,8 @@ export class Tab3Page implements OnInit {
     public _http: HttpService,
     public modalController: ModalController,
     private toastController: ToastController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private menu: MenuController
   ) {}
 
   async ngOnInit() {
@@ -88,5 +90,10 @@ export class Tab3Page implements OnInit {
     });
 
     await alert.present();
+  }
+
+  runMenu() {
+    console.log("menu")
+    this.menu.open('first');
   }
 }

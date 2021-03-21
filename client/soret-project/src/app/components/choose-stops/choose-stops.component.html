@@ -1,11 +1,11 @@
 <ion-content [fullscreen]="true">
-  <ion-card style="background-color: grey; margin: 5px">
-    <ion-card-title style="text-align: center">
-      <h2>trip detail</h2>
-    </ion-card-title>
+  <ion-card style="background-color: LightGrey; margin: 5px">
+    <ion-title class="ion-text-center" style="font-size: 28px">
+      Stop Detail
+    </ion-title>
 
     <ion-card-content *ngFor="let el of data">
-      <ion-card style="border: 2px solid orangered">
+      <ion-card style="border: 1px solid tomato; margin: 2%">
         <ion-item>
           <h3>
             trip : <strong>{{ el.trip_headsign }}</strong>
@@ -28,8 +28,8 @@
             <ion-icon
               #icon
               name="notifications-off"
-              size="16px"
-              (click)="lclNotification(icon)"
+              size="large"
+              (click)="lclNotification(icon, el.arrival_time)"
             ></ion-icon>
           </h3>
         </div>

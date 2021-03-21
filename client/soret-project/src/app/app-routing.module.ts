@@ -20,6 +20,10 @@ const routes: Routes = [
   },  {
     path: 'all-trip',
     loadChildren: () => import('./pages/all-trip/all-trip.module').then( m => m.AllTripPageModule)
+  },
+  {
+    path: 'tab4',
+    loadChildren: () => import('./tab4/tab4.module').then( m => m.Tab4PageModule)
   }
 
 ];
