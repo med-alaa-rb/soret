@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { SettingsService } from '../settings.service';
 import { ModalController } from '@ionic/angular';
 import { TripInfoPage } from '../pages/trip-info/trip-info.page';
 import { ComfirmPosPage } from '../pages/comfirm-pos/comfirm-pos.page';
@@ -16,6 +17,7 @@ export class Tab1Page implements AfterViewInit {
 
   constructor(
     public _http: HttpService,
+    public setting: SettingsService,
     public modalController: ModalController,
     private toastController: ToastController
   ) {}
@@ -24,7 +26,6 @@ export class Tab1Page implements AfterViewInit {
     await this._http.getStops('allData').subscribe((res) => {
       this.searchList = res;
     });
-    // this.anim(0);
   }
 
   async searchStops(x) {

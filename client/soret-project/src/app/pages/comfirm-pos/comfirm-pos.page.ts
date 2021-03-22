@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ModalController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
@@ -10,7 +10,7 @@ import { ToastController } from '@ionic/angular';
   templateUrl: './comfirm-pos.page.html',
   styleUrls: ['./comfirm-pos.page.scss'],
 })
-export class ComfirmPosPage {
+export class ComfirmPosPage implements OnInit {
   map: any;
   dragMarker: any;
   constructor(
@@ -19,6 +19,10 @@ export class ComfirmPosPage {
     public _http: HttpService,
     private toastController: ToastController
   ) {}
+
+  async ngOnInit() {
+    await this.setting.cardChoice();
+  }
 
   async ionViewDidEnter() {
     if (!this._http.nonComfirmedLocation[0]) {
@@ -39,6 +43,7 @@ export class ComfirmPosPage {
       this.setting.mapStrArr[this.setting.count],
       this.setting.mapObjArr[this.setting.count]
     ).addTo(this.map);
+    console.log('end map');
   }
 
   async userAddMarker() {

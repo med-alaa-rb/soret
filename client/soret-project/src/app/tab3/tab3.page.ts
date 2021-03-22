@@ -91,9 +91,4 @@ export class Tab3Page implements OnInit {
 
     await alert.present();
   }
-
-  runMenu() {
-    console.log("menu")
-    this.menu.open('first');
-  }
 }

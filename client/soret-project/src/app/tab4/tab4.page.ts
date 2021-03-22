@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingsService } from '../settings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab4',
@@ -6,11 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tab4.page.scss'],
 })
 export class Tab4Page implements OnInit {
-  constructor() {}
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400,
+  };
 
-  ngOnInit() {}
+  constructor(public settings: SettingsService,private router: Router) {}
 
-  selectStyle(x) {
-    x = !x;
+  async ngOnInit() {
+    this.settings.cardChoice();
+  }
+
+  selectStyle(num) {
+    this.settings.changeMaps(num);
+    this.router.navigate(['home'])
   }
 }

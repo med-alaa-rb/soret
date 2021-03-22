@@ -21,10 +21,14 @@ app.post("/api/2020/data/checkStorage", async (req, res) => {
 });
 
 app.post("/api/2020/data/deleteFav", async (req, res) => {
-  console.log(req.body);
   var result = req.body.arr.filter((el) => el.value != req.body.val);
   res.send(result);
 });
+
+
+app.post('/api/2020/data/checkStorageMapStyle', async (req, res) => {
+  res.send(await req.body.includes("soret-cardChoice"));
+})
 
 var port = process.env.PORT || 2700;
 

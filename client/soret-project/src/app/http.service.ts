@@ -59,6 +59,10 @@ export class HttpService {
   deleteFromKeys(obj) {
     return this.http.post(this.ROOT_URL + '/api/2020/data/deleteFav', obj);
   }
+  checkMapStyle(arr) {
+    return this.http.post(this.ROOT_URL + '/api/2020/data/checkStorageMapStyle', arr)
+  }
+
 
   async locate(obj) {
     if (!obj) {
