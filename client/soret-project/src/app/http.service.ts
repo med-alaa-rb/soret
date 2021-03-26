@@ -60,9 +60,25 @@ export class HttpService {
     return this.http.post(this.ROOT_URL + '/api/2020/data/deleteFav', obj);
   }
   checkMapStyle(arr) {
-    return this.http.post(this.ROOT_URL + '/api/2020/data/checkStorageMapStyle', arr)
+    return this.http.post(
+      this.ROOT_URL + '/api/2020/data/checkStorageMapStyle',
+      arr
+    );
   }
 
+  checknotification(arr) {
+    return this.http.post(
+      this.ROOT_URL + '/api/2020/data/alert/checknotificationTime',
+      arr
+    );
+  }
+
+  makeNotTime(arr) {
+    return this.http.post(
+      this.ROOT_URL + '/api/2020/data/alert/makeNotificationTime',
+      arr
+    );
+  }
 
   async locate(obj) {
     if (!obj) {
@@ -106,11 +122,9 @@ export class HttpService {
   }
 
   async rmFavStops(obj) {
-    console.log("rm",obj);
     var ret = await Storage.get({ key: 'soret-quickAcc' });
     var user = await JSON.parse(ret.value);
     this.deleteFromKeys({ arr: user, val: obj.value }).subscribe((res) => {
-      console.log(res);
       Storage.set({
         key: 'soret-quickAcc',
         value: JSON.stringify(res),

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../http.service';
+import { SettingsService } from '../../settings.service';
 import { ToastController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
@@ -17,6 +18,7 @@ export class ChooseStopsComponent implements OnInit {
   constructor(
     private toastController: ToastController,
     public _http: HttpService,
+    public settings: SettingsService,
     public modalCtrl: ModalController
   ) {}
 
@@ -37,23 +39,26 @@ export class ChooseStopsComponent implements OnInit {
   }
 
   async lclNotification(icon, time) {
-    const notifs = await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Title',
-          body: 'Body',
-          id: 1,
-          schedule: { at: new Date(time - 600000) },
-          sound: '../../../assets/notification_sound.mp3',
-          attachments: null,
-          actionTypeId: '',
-          extra: null,
-        },
-      ],
+    this._http.makeNotTime([time]).subscribe(async (res) => {
+      var x = res[0] - this.settings.notification * 1000;
+      const notifs = await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Title',
+            body: 'Body',
+            id: 1,
+            schedule: { at: new Date(Date.now() + x) },
+            sound: '../../../assets/notification_sound.mp3',
+            attachments: null,
+            actionTypeId: '',
+            extra: null,
+          },
+        ],
+      });
     });
     icon.name = 'notifications';
     icon.color = 'danger';
-    console.log('scheduled notifications', notifs);
+    console.log(time);
     await this.activeNotication();
   }
 
@@ -65,5 +70,15 @@ export class ChooseStopsComponent implements OnInit {
       swipeToClose: true,
     });
     return await modal.present();
+  }
+
+  notificationTime(time) {
+    // var arr = await time.split(":");
+    // let year = await new Date(new Date().getUTCFullYear());
+    // let month = await new Date(new Date().getMonth());
+    // let day = await new Date(new Date().getDay());
+    // let hour = (JSON.parse(arr[0]) + 1).toString();
+    // console.log(new Date(year, month, day, hour, arr[1], arr[2]))
+    // return new Date(year, month, day, hour, arr[1], arr[2]);
   }
 }

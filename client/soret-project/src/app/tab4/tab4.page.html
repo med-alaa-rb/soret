@@ -8,42 +8,50 @@
 
 <ion-content>
   <ion-card>
-    <h3 class="ion-text-center">Map Style</h3>
+    <ion-card>
+      <h3 class="ion-text-center">Map Style</h3>
 
-    <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide>
-        <ion-card id="slide1" class="mapCard"
-          ><ion-button
-            #button1
-            shape="round"
-            size="small"
-            (click)="selectStyle(0)"
-            >Choose</ion-button
-          ></ion-card
-        >
-      </ion-slide>
-      <ion-slide>
-        <ion-card id="slide2" class="mapCard"
-          ><ion-button
-            #button2
-            shape="round"
-            size="small"
-            (click)="selectStyle(1)"
-            >Choose</ion-button
-          ></ion-card
-        >
-      </ion-slide>
-      <ion-slide>
-        <ion-card id="slide3" class="mapCard"
-          ><ion-button
-            #button2
-            shape="round"
-            size="small"
-            (click)="selectStyle(2)"
-            >Choose</ion-button
-          ></ion-card
-        >
-      </ion-slide>
-    </ion-slides>
+      <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide>
+          <ion-card id="slide1" class="mapCard"
+            ><ion-button shape="round" size="small" (click)="selectStyle(0)"
+              >Choose</ion-button
+            ></ion-card
+          >
+        </ion-slide>
+        <ion-slide>
+          <ion-card id="slide2" class="mapCard"
+            ><ion-button shape="round" size="small" (click)="selectStyle(1)"
+              >Choose</ion-button
+            ></ion-card
+          >
+        </ion-slide>
+        <ion-slide>
+          <ion-card id="slide3" class="mapCard ion-text-center"
+            ><ion-button shape="round" size="small" (click)="selectStyle(2)"
+              >Choose</ion-button
+            ></ion-card
+          >
+        </ion-slide>
+      </ion-slides>
+    </ion-card>
+
+    <ion-card>
+      <h3 class="ion-text-center">Notification Time</h3>
+      <ion-label>alert me before</ion-label>
+      <ion-select
+        value="{{time}}"
+        size="small"
+        #select
+        okText="Okay"
+        (ionChange)="alertTime(select.value)"
+        cancelText="Dismiss"
+      >
+        <ion-select-option value="5">5</ion-select-option>
+        <ion-select-option value="10">10</ion-select-option>
+        <ion-select-option value="15">15</ion-select-option>
+        <ion-select-option value="20">20</ion-select-option>
+      </ion-select>
+    </ion-card>
   </ion-card>
 </ion-content>

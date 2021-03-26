@@ -89,7 +89,7 @@ fsRouter.get("/data/api/2020/stops/:id", (req, res) => {
         obj[myData[0][j]] =
           myData[i][j].match(/^[0-9, .]+$/) != null
             ? JSON.parse(myData[i][j])
-            : myData[i][j];
+            : myData[i][j].toLowerCase();
       }
       stops.push(obj);
     }

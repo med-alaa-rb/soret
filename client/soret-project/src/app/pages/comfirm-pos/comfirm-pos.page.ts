@@ -22,6 +22,7 @@ export class ComfirmPosPage implements OnInit {
 
   async ngOnInit() {
     await this.setting.cardChoice();
+    await this.setting.notifybefore(null);
   }
 
   async ionViewDidEnter() {
@@ -43,7 +44,6 @@ export class ComfirmPosPage implements OnInit {
       this.setting.mapStrArr[this.setting.count],
       this.setting.mapObjArr[this.setting.count]
     ).addTo(this.map);
-    console.log('end map');
   }
 
   async userAddMarker() {
@@ -61,7 +61,6 @@ export class ComfirmPosPage implements OnInit {
       }
     )
       .addTo(this.map)
-      .on('click', () => console.log('marker'))
       .bindPopup(`<h5>Drag your actual position</h5>`)
       .openPopup();
   }

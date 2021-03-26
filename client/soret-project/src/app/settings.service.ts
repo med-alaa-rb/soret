@@ -10,6 +10,7 @@ const { Storage } = Plugins;
 // the settings services will handle map background and notification time
 export class SettingsService {
   count: number = null;
+  notification: number = null;
 
   mapStrArr: Array<string> = [
     'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
@@ -36,7 +37,6 @@ export class SettingsService {
   constructor(public _http: HttpService) {}
 
   async cardChoice() {
-    console.log('settiiiiings');
     const { keys } = await Storage.keys();
     this._http.checkMapStyle(keys).subscribe(async (res) => {
       if (!res) {
@@ -45,7 +45,7 @@ export class SettingsService {
           value: JSON.stringify(1),
         });
         const { value } = await Storage.get({ key: 'soret-cardChoice' });
-    
+
         this.count = JSON.parse(value);
       } else {
         const { value } = await Storage.get({ key: 'soret-cardChoice' });
@@ -62,7 +62,29 @@ export class SettingsService {
     });
     const { value } = await Storage.get({ key: 'soret-cardChoice' });
     this.count = JSON.parse(value);
+  }
 
+  async notifybefore(x) {
+    if (!x) {
+      x = 10;
+      let { keys } = await Storage.keys();
+      this._http.checknotification(keys).subscribe(async (res) => {
+        if (!res) {
+          await Storage.set({
+            key: 'soret-notificationTime',
+            value: x,
+          });
+        }
+      });
+    } else {
+      await Storage.set({
+        key: 'soret-notificationTime',
+        value: x,
+      });
+    }
+    const { value } = await Storage.get({ key: 'soret-notificationTime' });
+
+    this.notification = await JSON.parse(value);
   }
 }
 

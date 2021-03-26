@@ -25,10 +25,46 @@ app.post("/api/2020/data/deleteFav", async (req, res) => {
   res.send(result);
 });
 
-
-app.post('/api/2020/data/checkStorageMapStyle', async (req, res) => {
+app.post("/api/2020/data/checkStorageMapStyle", async (req, res) => {
   res.send(await req.body.includes("soret-cardChoice"));
-})
+});
+
+app.post("/api/2020/data/alert/checknotificationTime", async (req, res) => {
+  res.send(await req.body.includes("soret-notificationTime"));
+});
+
+app.post("/api/2020/data/alert/makeNotificationTime", async (req, res) => {
+  let stopTime = changeTime(req.body[0]);
+  let time = getTime();
+  let result = stopTime - changeTime(time);
+  res.send([result]);
+});
+
+// time string to miillisecondes
+var changeTime = (x) => {
+  var y = x.split(":").map((el) => parseInt(el));
+  var arr = [3600, 60];
+  var result = 0;
+  for (var i = 0; i < arr.length; i++) {
+    result += arr[i] * y[i];
+  }
+  return (result + y[2]) * 1000;
+};
+
+//get date now in string format "**:**:**"
+var getTime = () => {
+  let timeNow = new Date().toLocaleTimeString();
+  if (timeNow.search("PM") == 0) {
+    return timeNow.substring(0, 8);
+  } else {
+    var arr = timeNow
+      .substring(0, 8)
+      .split(":")
+      .map((el) => parseInt(el));
+    arr[0] = arr[0] + 12;
+    return arr.join(":");
+  }
+};
 
 var port = process.env.PORT || 2700;
 

@@ -28,6 +28,7 @@ export class TripInfoPage implements OnInit {
   async ngOnInit() {
     var obj = { uP: this._http.userLocation, uD: this._http.modalData };
     this._http.postDesId(obj).subscribe(async (res) => {
+      console.log(res);
       if (!res[0]) {
         await this.loadMap([35.5, 10]);
         return;
@@ -98,7 +99,8 @@ export class TripInfoPage implements OnInit {
         .addTo(this.myMap)
         .bindPopup(`<h5>your actual position</h5>`)
         .openPopup();
-    } else if (this._http.userDes.lat) {
+    }
+     if (this._http.userDes.lat) {
       await L.marker([this._http.userDes.lat, this._http.userDes.lng], {
         icon: L.icon({
           iconUrl:

@@ -1,26 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SettingsService } from '../settings.service';
-import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab4',
   templateUrl: './tab4.page.html',
   styleUrls: ['./tab4.page.scss'],
 })
-export class Tab4Page implements OnInit {
+export class Tab4Page {
+  time: any = this.settings.notification;
+
   slideOpts = {
     initialSlide: 1,
     speed: 400,
   };
 
-  constructor(public settings: SettingsService,private router: Router) {}
+  constructor(
+    public settings: SettingsService,
+    private toastController: ToastController
+  ) {}
 
-  async ngOnInit() {
-    this.settings.cardChoice();
+  async selectStyle(num) {
+    await this.settings.changeMaps(num);
+    await this.loadToast();
   }
 
-  selectStyle(num) {
-    this.settings.changeMaps(num);
-    this.router.navigate(['home'])
+  alertTime(el) {
+    this.settings.notifybefore(el);
+  }
+
+  async loadToast() {
+    const toast = await this.toastController.create({
+      message: 'restart the app please',
+      duration: 2000,
+      color: 'danger',
+      position: 'bottom',
+    });
+    toast.present();
   }
 }
